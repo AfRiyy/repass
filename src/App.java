@@ -12,36 +12,41 @@ public class App {
         System.out.println("Verzió: 0.0.1");
         
         //Az a objektummal kérhetünk be a konzolról
-        Scanner a = new Scanner(System.in);
+        Scanner scan = new Scanner(System.in); //az a nem megfelelő változónév
 
         System.out.print("Felhasználónév: ");
         // A b változó tárolja a jelszót
-        String b = a.nextLine();
+        String username = scan.nextLine();//a b nem megfelelő változónév
         System.out.print("Jelszó: ");
-        String c = a.nextLine();
+        String pass = scan.nextLine();//a c nem megfelelő változónév
         System.out.print("Hely: ");
-        String d = a.nextLine();
-        a.close();
-        int iSiker = 0;
+        String place = scan.nextLine(); //a d nem megfelelő változónév
+        scan.close(); 
+        int isSucceed = 0;
         try {
             /* 
             A jelszó, a felhasználónév és a 
             használati helye a passList 
             objektumban van tárolva            
             */
-            Store passList = new Store(b, c, d);
-            FileWriter f = new FileWriter("pass.txt");
-            PrintWriter pwr = new PrintWriter(f);
-            pwr.print(passList.user);
-            if(!passList.hollow()) { pwr.print(passList.retrieval()); }
-            pwr.print(passList.place);
-            pwr.close();
-            iSiker = 1;
-        } catch (IOException e) {
+            Store passList = new Store(username, pass, place);
+            FileWriter fileWriter = new FileWriter("pass.txt");
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print(passList.user);
+            if(!passList.hollow()) { printWriter.print(passList.retrieval()); }
+            printWriter.print(passList.place);
+            printWriter.close();
+            isSucceed = 1;
+        } catch (IOException ex) {
             System.err.println("Hiba! A fájlbaírás sikertelen. Keresse meg a fejlesztőt.");
         }
 
-        if(iSiker == 1) { System.out.println("Ok. A kiírás sikeres.");  }else {  System.out.println("Hiba! A kiírás sikertelen"); }
+        if(isSucceed == 1) { 
+            System.out.println("Ok. A kiírás sikeres.");  
+        }
+        else {  
+            System.out.println("Hiba! A kiírás sikertelen"); 
+        }
 
     }
 
