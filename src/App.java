@@ -4,64 +4,57 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class App {
-    private static Scanner scan;
-    private static  String user;
-    private static  String pass;
-    private static  String place;
     public static void main(String[] args) {
         aboutShow();
-        scan = new Scanner(System.in); 
-        setUser();
-        setPass();
-        setPlace();
-        scan.close();
-        int isSucceed = 0;
-        
-        if (isSucceed == 1) {
-            System.out.println("Ok. A kiírás sikeres.");
-        } else {
-            System.out.println("Hiba! A kiírás sikertelen");
-        }
-
+        String[] profileArray = inputProfile();
+        boolean success = writeProfile(profileArray);
+        writeSuccess(success);
     }
 
     public static void aboutShow() {
         System.out.println("Nagy János");
-        // Fejrész kiírása
         System.out.println("Jelszavak");
-        // Verzió kiírása
         System.out.println("Verzió: 0.0.1");
     }
-    public static void setUser(){
-        System.out.print("Felhasználónév: ");
-        user = scan.nextLine();
+
+    public static String input(String msg){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(msg);
+        String inputStr = scanner.nextLine();
+        return inputStr;   
     }
-    public static void setPass(){
-        System.out.print("Jelszó: ");
-        pass = scan.nextLine();
+    public static String[] inputProfile(){
+       String user = input("Felhasználónév: ");
+       String pass = input("Jelszó: ");
+       String place = input("Hely: ");
+       String[] array = {user,pass,place};
+       return array;
     }
-    public static void setPlace(){
-        System.out.print("Hely: ");
-        place = scan.nextLine();
+    public static void writeSuccess(boolean success){
+        if (success) {
+            System.out.println("Ok. A kiírás sikeres.");
+        } else {
+            System.out.println("Hiba! A kiírás sikertelen");
+        }
     }
-    public static void profileWriteOut(){
+    public static boolean writeProfile(String[] profileArray){
         try {
-            /*
-             * A jelszó, a felhasználónév és a használati helye a passList objektumban van
-             * tárolva
-             */
-            Profile profile = new Profile(user, pass, place);
-            FileWriter fileWriter = new FileWriter("pass.txt");
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print(profile.user);
-            if (!profile.isPassEmpty()) {
-                printWriter.print(profile.getPass());
-            }
-            printWriter.print(profile.place);
-            printWriter.close();
-            isSucceed = 1;
+            tryWriteProfile(profileArray);
+            return true;
         } catch (IOException ex) {
             System.err.println("Hiba! A fájlbaírás sikertelen. Keresse meg a fejlesztőt.");
+            return false;
         }
+    }
+    public static void tryWriteProfile(String[] profileArray) throws IOException{
+        Profile profile = new Profile(profileArray);
+        FileWriter fileWriter = new FileWriter("pass.txt");
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        printWriter.print(profile.getUser()+" ");
+        if (!profile.isPassEmpty()) {
+            printWriter.print(profile.getPass()+" ");
+        }
+        printWriter.print(profile.getPlace()+" ");
+        printWriter.close();
     }
 }
