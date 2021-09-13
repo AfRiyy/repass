@@ -1,16 +1,16 @@
-public class Store {
+public class Profile {
     String user;
     String pass;
     String place;
-    public Store(String user, String pass, String place) {
+    public Profile(String user, String pass, String place) {
         this.user = user;
         this.pass = pass;
         this.place = place;
     }
-    public String retrieval() {
+    public String getPass() {
         return pass;
     }
-    public boolean hollow() {
+    public boolean isPassEmpty() {
         if(this.pass == "") {
             return true;
         }else {
